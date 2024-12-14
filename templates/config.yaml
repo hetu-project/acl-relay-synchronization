@@ -1,0 +1,23 @@
+database:
+  db_url: "postgres://test:123456@0.0.0.0:5433/nostr_gateway"
+  max_connect_pool: 30
+  min_connect_pool: 10
+  connect_timeout: 30
+  acquire_timeout: 60
+server:
+  host: "127.0.0.1"
+  port: "8080"
+indexdb_backend:
+  invite_url: "http://18.136.124.172:3100/api/event/submit"
+nostr:
+  priv_key: "nsec1ufnus6pju578ste3v90xd5m2decpuzpql2295m3sknqcjzyys9ls0qlc85"
+  ws_url: "ws://localhost:10547" 
+waku:
+  node_url: "0.0.0.0"
+  send_api: "http://127.0.0.1:8645/relay/v1/auto/messages"
+  pubsub_topic: "/waku/2/rs/1/6"
+  content_topic: "/basic/1/test/proto"
+  node_addr: "/ip4/213.136.84.124/tcp/30304/p2p/16Uiu2HAm54nognWMn36kkMzPdHPcNDteeRC2cfWCHSkkJKyG4oQd"
+  cluster_id: "1"
+  shared: "6"
+  waku_bin: "./basic2"
