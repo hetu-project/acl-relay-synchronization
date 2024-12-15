@@ -84,7 +84,3 @@ This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE)
 ## Contact
 
 For questions or support, feel free to contact the maintainers via GitHub issues or submit a request through [hetu-project](https://github.com/hetu-project).  
-
----
-
-This README provides a clear and professional introduction to the project, making it easy for contributors and users to understand and get started.
