@@ -1,7 +1,7 @@
 
-# ACL Relay Synchronization
+# ACL Relay
 
-This repository hosts the ***ACL Relay Synchronization*** project, designed to provide a robust, scalable, and efficient mechanism for synchronizing Access Control Lists (ACLs) across a network by using a custom relay system. The project leverages relay-based communication protocols to ensure data consistency and real-time updates in environments with multiple nodes.
+This repository hosts the ***ACL Relay*** project, designed to provide a robust, scalable, and efficient mechanism for synchronizing Access Control Lists (ACLs) across a network by using a custom relay system. The project leverages relay-based communication protocols to ensure data consistency and real-time updates in environments with multiple nodes.
 
 ---
 
@@ -30,8 +30,8 @@ Before setting up or contributing to the project, ensure you have the following 
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/hetu-project/acl-relay-synchronization.git
-   cd acl-relay-synchronization
+   git clone https://github.com/hetu-project/acl-relay.git
+   cd acl-relay
    ```
 
 2. **Run the Application**:
