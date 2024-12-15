@@ -1,7 +1,7 @@
 
 # ACL Relay Synchronization
 
-This repository hosts the **ACL Relay Synchronization** project, designed to provide a robust, scalable, and efficient mechanism for synchronizing Nostr Ralys by using Waku. The project leverages Waku-based communication protocols to ensure data consistency and real-time updates in environments with multiple nodes.
+This repository hosts the ***ACL Relay Synchronization*** project, designed to provide a robust, scalable, and efficient mechanism for synchronizing Access Control Lists (ACLs) across a network by using a custom relay system. The project leverages relay-based communication protocols to ensure data consistency and real-time updates in environments with multiple nodes.
 
 ---
 
@@ -72,12 +72,6 @@ Contributions are welcome! To contribute:
    git push origin feature/your-feature-name
    ```
 5. Open a pull request.  
-
----
-
-## License
-
-This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for more details.
 
 ---
 
