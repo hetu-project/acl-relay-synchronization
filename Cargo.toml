@@ -9,6 +9,7 @@ base64 = "0.22.1"
 chrono = "0.4.38"
 clap = { version = "4.5.21", features = ["derive"] }
 futures = "0.3.31"
+libloading = "0.8.6"
 nostr-sdk = { version = "0.37.0", features = ["all-nips"] }
 rand = "0.8.5"
 reqwest = { version = "0.12.9", features = ["default", "json"] }

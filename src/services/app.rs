@@ -4,9 +4,9 @@
 use crate::common::config::Config;
 use crate::common::error;
 use crate::db;
+use crate::indexdb;
 use crate::nostr;
 use crate::waku;
-use crate::indexdb;
 use base64;
 use reqwest::{
     header::{HeaderMap, HeaderValue, CONTENT_TYPE},
@@ -65,12 +65,12 @@ impl App {
         .await?;
 
         // Initialize the waku client.
-        let wclient = waku::WakuClient::new(config.waku.clone()).await.unwrap();
+        let wclient = waku::WakuClient::new(config.waku.clone()).unwrap();
 
         // Return the app instance.
         Ok(App {
             store,
-            config:config.clone(),
+            config: config.clone(),
             nostr_client: Arc::new(nclient),
             waku_client: Arc::new(wclient),
             indexdb_client: Arc::new(indexdb::IndexdbServer::new()),
@@ -84,36 +84,19 @@ impl App {
     pub async fn from_nostr_to_waku(&self) {
         let (tx, mut rx) = mpsc::channel(100);
         let wclient = self.waku_client.clone();
-        let client = Client::new();
-        let url = self.config.waku.send_api.clone();
-        let content_topic = self.config.waku.content_topic.clone();
-
         // Spawn a background task to process and send events to Waku.
         tokio::task::spawn(async move {
             while let Some(event) = rx.recv().await {
                 // Encode the event payload in base64 format.
-                let encoded_payload = base64::encode(serde_json::to_string(&event).unwrap());
+                let encoded_payload = serde_json::to_string(&event).unwrap();
 
                 // Prepare the HTTP request body.
-                let body = json!({
-                    "payload": encoded_payload,
-                    "contentTopic": content_topic
-                });
+                //let body = json!({
+                //    "payload": encoded_payload,
+                //    "contentTopic": content_topic
+                //});
 
-                // Send the payload to the Waku node.
-                let response = client
-                    .post(url.clone())
-                    .header("Content-Type", "application/json")
-                    .json(&body)
-                    .send()
-                    .await
-                    .unwrap();
-
-                tracing::info!("Response from server: {}", response.status());
-                match response.text().await {
-                    Ok(body) => tracing::info!("Response from server: {}", body),
-                    Err(e) => tracing::error!("Response from server: {}", e),
-                }
+                wclient.send_message(encoded_payload);
             }
         });
 
@@ -156,17 +139,27 @@ impl App {
     pub async fn from_waku_to_nostr(&self) {
         let (tx, mut rx) = mpsc::channel(100);
 
+        let config = self.config.waku.clone();
         let wclient = self.waku_client.clone();
-        tokio::task::spawn(async move {
-            wclient.listening_message_gowrapper(tx).await;
-        });
+        //tokio::task::spawn(async move {
+        //wclient.listening_message(tx);
+        //waku::listening_message(config, tx);
+        //});
 
-        //self.waku_client.listening_message(tx).await;
+        self.waku_client.listening_message(tx);
 
         let nclient = self.nostr_client.clone();
         while let Some(event) = rx.recv().await {
             tracing::info!("got event: {:?}", event);
-            //let _ = nclient.send_event(event).await;
+
+            if let Ok(decoded_event) = serde_json::from_str::<nostr_sdk::Event>(&event.payload) {
+                let _ = nclient.send_event(decoded_event);
+            }
+
+            //match serde_json::from_str::<nostr_sdk::Event>(&event.payload) {
+            //    Ok(decoded_event) => nclient.send_event(decoded_event),
+            //    Err(e) => tracing::warn!("{:?}", e),
+            //}
         }
     }
 
@@ -177,7 +170,7 @@ impl App {
     pub async fn from_nostr_to_indexdb(&self) {
         let (tx, mut rx) = mpsc::channel::<nostr_sdk::Event>(100);
         let iclient = self.indexdb_client.clone();
-	let invite_url = self.config.indexdb_backend.invite_url.clone();
+        let invite_url = self.config.indexdb_backend.invite_url.clone();
         tokio::task::spawn(async move {
             while let Some(event) = rx.recv().await {
                 let _ = iclient

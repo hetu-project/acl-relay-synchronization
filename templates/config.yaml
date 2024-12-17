@@ -15,9 +15,16 @@ nostr:
 waku:
   node_url: "0.0.0.0"
   send_api: "http://127.0.0.1:8645/relay/v1/auto/messages"
-  pubsub_topic: "/waku/2/rs/1/6"
-  content_topic: "/basic/1/test/proto"
+  pubsub_topic: "/waku/2/rs/16/32"
+  content_topic: "/waku/9/test/proto"
   node_addr: "/ip4/213.136.84.124/tcp/30304/p2p/16Uiu2HAm54nognWMn36kkMzPdHPcNDteeRC2cfWCHSkkJKyG4oQd"
-  cluster_id: "1"
-  shared: "6"
-  waku_bin: "./basic2"
+  cluster_id: 16
+  shared:
+    - 1
+    - 32
+    - 64
+    - 128
+    - 256
+  waku_dylib: "./libs/libwaku_bindings.so"
+  dns_url: "enrtree://AMOJVZX4V6EXP7NTJPMAYJYST2QP6AJXYW76IU6VGJS7UVSNDYZG4@boot.prod.status.nodes.status.im"
+  key: "2fc0515879e52b7b73297cfd6ab3abf7c344ef84b7a90ff6f4cc19e05a198027"
