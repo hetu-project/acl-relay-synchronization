@@ -29,9 +29,11 @@ pub struct WakuConfig {
     pub pubsub_topic: String,
     pub content_topic: String,
     pub node_addr: String,
-    pub cluster_id: String,
-    pub shared: String,
-    pub waku_bin: String,
+    pub cluster_id: usize,
+    pub shared: Vec<usize>,
+    pub waku_dylib: String,
+    pub dns_url: String,
+    pub key: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize)]
